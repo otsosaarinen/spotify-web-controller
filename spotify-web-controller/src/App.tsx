@@ -4,7 +4,7 @@ import Header from "./Header";
 function App() {
     return (
         <>
-            <div className="flex justify-center items-center h-screen bg-neutral-900">
+            <div className="flex justify-center items-center h-screen bg-white">
                 <Header />
                 <Auth />
             </div>
