@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "ES2022", // Modern JS features for backend
+        "module": "commonjs", // CommonJS module system for Node.js
+        "lib": ["ES2022"], // Include modern JS library features
+        "skipLibCheck": true, // Skip type checking of declaration files
+        "esModuleInterop": true, // For proper import/export handling
+        "strict": true, // Enable strict type-checking
+        "noEmit": false, // Emit JS files after TypeScript compilation
+        "outDir": "./dist", // Output directory for compiled JavaScript
+        "rootDir": "./src", // Root directory for TypeScript source files
+        "moduleResolution": "node", // Use Node.js module resolution strategy
+        "resolveJsonModule": true // Allow importing JSON modules
+    },
+    "include": ["src/**/*"], // Include all TypeScript files in the 'src' folder
+    "exclude": ["node_modules"] // Exclude 'node_modules' from compilation
+}
