@@ -1,3 +1,7 @@
 import "dotenv/config";
+import express from "express";
 
-console.log(process.env.CLIENT_ID);
+const app = express();
+const port = 3000;
+
+app.post("/auth", (req, res) => {});
