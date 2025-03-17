@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Auth from "./Auth";
 import Header from "./Header";
+import Music from "./Music";
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -19,6 +20,7 @@ function App() {
                 <div>
                     {isAuthenticated ? <p>You are authenticated</p> : <Auth />}
                 </div>
+                <Music />
             </div>
         </>
     );
