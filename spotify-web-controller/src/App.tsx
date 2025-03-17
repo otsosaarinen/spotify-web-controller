@@ -17,10 +17,8 @@ function App() {
         <>
             <div className="flex justify-center items-center h-screen bg-white">
                 <Header />
-                <div>
-                    {isAuthenticated ? <p>You are authenticated</p> : <Auth />}
-                </div>
-                <Music />
+                {isAuthenticated ? <p>You are authenticated</p> : <Auth />}
+                {isAuthenticated ? <Music /> : ""}
             </div>
         </>
     );
