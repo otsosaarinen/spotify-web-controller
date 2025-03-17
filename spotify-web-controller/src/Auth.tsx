@@ -30,22 +30,31 @@ function Auth() {
     };
 
     useEffect(() => {
-        const generateCodeChallenge = async () => {
+        // check if a code verifier already exists in localstorage
+        const savedCodeVerifier = localStorage.getItem("code_verifier");
+        if (savedCodeVerifier) {
+            // if it exists, use it and generate the code challenge
+            setCodeVerifier(savedCodeVerifier);
+            const hashed = sha256(savedCodeVerifier);
+            hashed.then((hash) => {
+                const challenge = base64encode(hash);
+                setCodeChallenge(challenge);
+            });
+        } else {
+            // if no code verifier exists, create a new one and store it in localstorage
             const verifier = generateRandomString(64);
             setCodeVerifier(verifier);
-
-            // save verifier to localstorage
             localStorage.setItem("code_verifier", verifier);
-            console.log("This verifier saved to localstorage ", verifier);
 
-            const hashed = await sha256(verifier);
-            const challenge = base64encode(hashed);
-            setCodeChallenge(challenge);
-        };
-
-        generateCodeChallenge();
+            const hashed = sha256(verifier);
+            hashed.then((hash) => {
+                const challenge = base64encode(hash);
+                setCodeChallenge(challenge);
+            });
+        }
     }, []);
 
+    // redirect user to backend's url to send GET request for user authorization
     const Authorization = () => {
         const authUrl = new URL(
             `http://localhost:3000/auth?code_challenge=${codeChallenge}`
@@ -56,10 +65,6 @@ function Auth() {
 
     const getAccessToken = async (code: string) => {
         const accessCodeVerifier = localStorage.getItem("code_verifier");
-        console.log(
-            "This verifier was loaded before request ",
-            accessCodeVerifier
-        );
 
         if (!accessCodeVerifier) {
             console.log("Code verifier is missing");
@@ -83,7 +88,8 @@ function Auth() {
             }
 
             const data = await response.json();
-            console.log(data);
+            // save access token to localstorage
+            localStorage.setItem("access_token", data.access_token);
         } catch (error) {
             console.error("Error exchanging code for access token", error);
         }
