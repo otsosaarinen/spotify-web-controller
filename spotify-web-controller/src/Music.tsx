@@ -1,4 +1,5 @@
 import PlayCircleFilled from "@mui/icons-material/PlayCircleFilled";
+import PauseCircleFilled from "@mui/icons-material/PauseCircleFilled";
 import { IconButton } from "@mui/material";
 
 function Music() {
@@ -12,9 +13,14 @@ function Music() {
 
     return (
         <>
-            <IconButton size="large" color="primary" onClick={skipToNext}>
-                <PlayCircleFilled fontSize="inherit" />
-            </IconButton>
+            <div className="flex flex-row justify-center items-center">
+                <IconButton size="large" color="primary" onClick={skipToNext}>
+                    <PlayCircleFilled fontSize="inherit" />
+                </IconButton>
+                <IconButton size="large" color="primary">
+                    <PauseCircleFilled fontSize="inherit" />
+                </IconButton>
+            </div>
         </>
     );
 }
