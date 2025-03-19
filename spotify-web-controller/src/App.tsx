@@ -18,7 +18,7 @@ function App() {
             <div className="flex justify-center items-center h-screen bg-white">
                 <Header />
                 <div className="flex flex-col justify-center items-center">
-                    {isAuthenticated ? <p>You are authenticated</p> : <Auth />}
+                    {isAuthenticated ? "" : <Auth />}
                     {isAuthenticated ? <Music /> : ""}
                 </div>
             </div>
