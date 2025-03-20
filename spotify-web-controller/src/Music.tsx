@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
 import PlayCircleFilled from "@mui/icons-material/PlayCircleFilled";
 import PauseCircleFilled from "@mui/icons-material/PauseCircleFilled";
 import SkipNext from "@mui/icons-material/SkipNext";
@@ -12,13 +13,15 @@ function Music() {
     // get access token from the localstorage
     const access_token = localStorage.getItem("access_token");
 
+    // set variables for the player
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [volume, setVolume] = useState<number>(50);
-
     const [currentSong, setCurrentSong] = useState({
         title: "Unknown",
         artist: "Unknown",
     });
+    const [backgroundUrl, setBackgroundUrl] = useState<string>("");
+    const [songUrl, setSongUrl] = useState<string>("");
 
     const getPlaybackState = async () => {
         const response = await fetch("https://api.spotify.com/v1/me/player", {
@@ -27,15 +30,17 @@ function Music() {
         });
 
         const data = await response.json();
-        if (data.item) {
+
+        if (data) {
             setCurrentSong({
                 title: data.item.name,
                 artist: data.item.artists[0].name,
             });
+            setIsPlaying(data["is_playing"]);
+            setVolume(data.device.volume_percent);
+            setBackgroundUrl(data.item.album.images[0].url);
+            setSongUrl(data.item.external_urls.spotify);
         }
-
-        setIsPlaying(data["is_playing"]);
-        setVolume(data.device.volume_percent);
     };
 
     const playMusic = async () => {
@@ -100,6 +105,11 @@ function Music() {
         );
     };
 
+    const openSongUrl = () => {
+        const SpotifySongUrl = songUrl;
+        window.open(SpotifySongUrl, "_blank");
+    };
+
     // run getPlaybackState on page load to update the current song
     useEffect(() => {
         getPlaybackState();
@@ -108,6 +118,13 @@ function Music() {
     return (
         <>
             <div className="flex flex-col justify-center items-center gap-5">
+                <div className="">
+                    <img
+                        src={backgroundUrl}
+                        alt="background image"
+                        className="h-auto w-xs bg-cover"
+                    />
+                </div>
                 <div className="text-xl font-medium">
                     <span>
                         {currentSong.title} - {currentSong.artist}
@@ -162,6 +179,16 @@ function Music() {
                         onChangeCommitted={changeVolume}
                     />
                     <VolumeUp />
+                </div>
+
+                <div className="">
+                    <Button
+                        variant="contained"
+                        size="medium"
+                        onClick={openSongUrl}
+                    >
+                        Open in Spotify
+                    </Button>
                 </div>
             </div>
         </>
