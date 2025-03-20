@@ -43,6 +43,11 @@ function Auth() {
                     );
                     const data = await response.json();
                     console.log(data);
+
+                    if (data.access_token) {
+                        localStorage.setItem("access_token", data.access_token);
+                        window.location.reload();
+                    }
                 } catch (error) {
                     console.error("Error fetching access token: ", error);
                 }
