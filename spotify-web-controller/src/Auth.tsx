@@ -29,13 +29,16 @@ function Auth() {
     useEffect(() => {
         const fetch_access_token = async () => {
             if (code && state) {
-                const body = new URLSearchParams({ code: code, state: state });
+                const body = { code: code, state: state };
                 try {
                     const response = await fetch(
-                        `http://localhost:3000/access?code=${code}&state=${state}`,
+                        `http://localhost:3000/access`,
                         {
                             method: "POST",
-                            body: body.toString(),
+                            body: JSON.stringify(body),
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
                         }
                     );
                     const data = await response.json();
