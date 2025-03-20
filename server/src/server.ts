@@ -58,17 +58,24 @@ app.post(access_endpoint, async (req, res) => {
             CLIENT_ID + ":" + CLIENT_SECRET
         ).toString("base64");
 
-        const response = await fetch("https://accounts.spotify.com/api/token", {
-            method: "POST",
-            headers: {
-                "content-type": "application/x-www-form-urlencoded",
-                Authorization: `Basic ${authorization}`,
-            },
-            body: body.toString(),
-        });
+        try {
+            const response = await fetch(
+                "https://accounts.spotify.com/api/token",
+                {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/x-www-form-urlencoded",
+                        Authorization: `Basic ${authorization}`,
+                    },
+                    body: body.toString(),
+                }
+            );
 
-        const data = await response.json();
-        res.json(data);
+            const data = await response.json();
+            res.json(data);
+        } catch (error) {
+            res.status(500).json({ error: "error occured" });
+        }
     }
 });
 
