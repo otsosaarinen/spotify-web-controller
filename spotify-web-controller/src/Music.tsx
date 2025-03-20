@@ -125,11 +125,13 @@ function Music() {
         <>
             <div className="flex flex-col justify-center items-center gap-5">
                 <div className="">
-                    <img
-                        src={backgroundUrl}
-                        alt="background image"
-                        className="h-auto w-xs bg-cover"
-                    />
+                    {backgroundUrl && (
+                        <img
+                            src={backgroundUrl}
+                            alt="background image"
+                            className="h-auto w-xs bg-cover"
+                        />
+                    )}
                 </div>
                 <div className="text-xl font-medium">
                     <span>
