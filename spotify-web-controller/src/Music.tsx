@@ -3,13 +3,17 @@ import PlayCircleFilled from "@mui/icons-material/PlayCircleFilled";
 import PauseCircleFilled from "@mui/icons-material/PauseCircleFilled";
 import SkipNext from "@mui/icons-material/SkipNext";
 import SkipPrevious from "@mui/icons-material/SkipPrevious";
-import { IconButton } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Slider from "@mui/material/Slider";
+import VolumeDown from "@mui/icons-material/VolumeDown";
+import VolumeUp from "@mui/icons-material/VolumeUp";
 
 function Music() {
     // get access token from the localstorage
     const access_token = localStorage.getItem("access_token");
 
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [volume, setVolume] = useState<number>(50);
 
     const [currentSong, setCurrentSong] = useState({
         title: "Unknown",
@@ -30,8 +34,8 @@ function Music() {
             });
         }
 
-        // sets isPlaying value
         setIsPlaying(data["is_playing"]);
+        setVolume(data.device.volume_percent);
     };
 
     const playMusic = async () => {
@@ -78,6 +82,24 @@ function Music() {
         }, 250); //
     };
 
+    // updates volume slider
+    const handleChange = (event: Event, newValue: number | number[]) => {
+        setVolume(newValue as number);
+    };
+
+    // change playback volume
+    const changeVolume = async () => {
+        const newVolume = volume;
+
+        await fetch(
+            `https://api.spotify.com/v1/me/player/volume?volume_percent=${newVolume}`,
+            {
+                method: "PUT",
+                headers: { Authorization: `Bearer ${access_token}` },
+            }
+        );
+    };
+
     // run getPlaybackState on page load to update the current song
     useEffect(() => {
         getPlaybackState();
@@ -91,7 +113,7 @@ function Music() {
                         {currentSong.title} - {currentSong.artist}
                     </span>
                 </div>
-                <div className="flex flex-row justify-center items-center border-solid border-4 rounded-4xl border-blue-500">
+                <div className="w-3xs flex flex-row justify-evenly items-center border-solid border-4 rounded-4xl border-blue-500">
                     <IconButton
                         size="large"
                         color="primary"
@@ -125,6 +147,21 @@ function Music() {
                     >
                         <SkipNext fontSize="inherit" />
                     </IconButton>
+                </div>
+
+                <div className="flex flex-row items-center gap-2 w-3xs h-20">
+                    <VolumeDown />
+                    <Slider
+                        aria-label="Volume"
+                        color="primary"
+                        valueLabelDisplay="auto"
+                        min={0}
+                        max={100}
+                        value={volume}
+                        onChange={handleChange}
+                        onChangeCommitted={changeVolume}
+                    />
+                    <VolumeUp />
                 </div>
             </div>
         </>
