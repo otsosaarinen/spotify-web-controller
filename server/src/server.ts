@@ -9,38 +9,31 @@ const auth_endpoint = "/auth";
 const access_endpoint = "/access";
 
 const CLIENT_ID = process.env.CLIENT_ID as string;
+const CLIENT_SECRET = process.env.CLIENT_SECRET as string;
 const REDIRECT_URI = process.env.REDIRECT_URI as string;
 
 app.use(cors());
 app.use(express.json());
 
 app.get(auth_endpoint, (req, res) => {
-    if (!CLIENT_ID || !REDIRECT_URI) {
-        res.status(500).send(
-            "Missing environment variables (CLIENT_ID or REDIRECT_URI)."
+    if (!CLIENT_ID || !CLIENT_SECRET || !REDIRECT_URI) {
+        res.status(400).send(
+            "Missing environment variables (CLIENT_ID or CLIENT_SECRET or REDIRECT_URI)."
         );
     }
 
     const state = generateRandomString(16);
     const scope = "user-read-playback-state user-modify-playback-state";
-    const code_challenge_method = "S256";
-
-    const code_challenge = req.query.code_challenge as string;
-
-    if (typeof code_challenge !== "string") {
-        res.status(400).send("Missing or invalid code_challenge parameter.");
-    }
 
     const authUrl = new URL("https://accounts.spotify.com/authorize");
 
     const params = {
-        response_type: "code",
         client_id: CLIENT_ID,
-        state,
-        scope,
-        code_challenge_method,
-        code_challenge,
+        response_type: "code",
         redirect_uri: REDIRECT_URI,
+        state: state,
+        scope: scope,
+        show_dialog: "true",
     };
 
     authUrl.search = new URLSearchParams(params).toString();
@@ -49,38 +42,33 @@ app.get(auth_endpoint, (req, res) => {
 });
 
 app.post(access_endpoint, async (req, res) => {
-    const code = req.body.code as string;
-    const code_verifier = req.body.code_verifier as string;
+    const code = req.body.code || null;
+    const state = req.body.state || null;
 
-    if (!code || !code_verifier) {
-        res.status(400).send("Missing 'code' or 'code_verifier'");
-    }
+    if (state === null) {
+        res.status(400).send("State parameter is missing");
+    } else {
+        const body = new URLSearchParams({
+            grant_type: "authorization_code",
+            code: code,
+            redirect_uri: REDIRECT_URI,
+        });
 
-    try {
+        const authorization = Buffer.from(
+            CLIENT_ID + ":" + CLIENT_SECRET
+        ).toString("base64");
+
         const response = await fetch("https://accounts.spotify.com/api/token", {
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
+                "content-type": "application/x-www-form-urlencoded",
+                Authorization: `Basic ${authorization}`,
             },
-            body: new URLSearchParams({
-                client_id: CLIENT_ID,
-                grant_type: "authorization_code",
-                code,
-                redirect_uri: REDIRECT_URI,
-                code_verifier: code_verifier,
-            }),
+            body: body.toString(),
         });
 
         const data = await response.json();
-        console.log(data);
-
-        if (response.ok) {
-            res.json(data);
-        } else {
-            res.status(400).json(data);
-        }
-    } catch (error) {
-        res.status(500).send("Failed to get access token");
+        res.json(data);
     }
 });
 
