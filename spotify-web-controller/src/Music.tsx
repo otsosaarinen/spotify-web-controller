@@ -113,6 +113,12 @@ function Music() {
     // run getPlaybackState on page load to update the current song
     useEffect(() => {
         getPlaybackState();
+
+        const interval = setInterval(() => {
+            getPlaybackState();
+        }, 5000);
+
+        return () => clearInterval(interval);
     }, []);
 
     return (
