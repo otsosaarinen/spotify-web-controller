@@ -21,8 +21,6 @@ function Auth() {
         if (codeParam && stateParam) {
             setCode(codeParam);
             setState(stateParam);
-        } else {
-            console.log("url parameters are missing");
         }
     }, []);
 
