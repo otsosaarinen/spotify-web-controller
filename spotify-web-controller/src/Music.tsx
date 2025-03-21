@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Slider from "@mui/material/Slider";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 function Music() {
     // get access token from the localstorage
@@ -194,6 +195,7 @@ function Music() {
                         variant="contained"
                         size="medium"
                         onClick={openSongUrl}
+                        endIcon={<OpenInNewIcon />}
                     >
                         Open in Spotify
                     </Button>
