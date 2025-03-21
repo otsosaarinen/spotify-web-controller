@@ -12,7 +12,7 @@ Control your spotify playback through a simple website. Uses OAuth 2.0 authoriza
    npm run dev
    ```
 4. Start the express.js server from the ``server`` folder:
-  ```bash
-  npx ts-node src/server.ts
-  ```
+   ```bash
+   npx ts-node src/server.ts
+   ```
 5. Navigate to ``http://localhost:5173``
