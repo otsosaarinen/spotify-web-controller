@@ -15,7 +15,7 @@ function App() {
 
     return (
         <>
-            <div className="flex justify-center items-center h-screen bg-white">
+            <div className="flex justify-center items-center h-screen bg-white font-roboto">
                 <Header />
                 <div className="flex flex-col justify-center items-center">
                     {isAuthenticated ? "" : <Auth />}
