@@ -113,29 +113,8 @@ function Music() {
         window.open(SpotifySongUrl, "_blank");
     };
 
-    const { exec } = require("child_process");
-
-    const check_spotify = () => {
-        exec(
-            "tasklist",
-            (err: Error | null, stdout: string, stderr: string) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-
-                if (stdout.toLowerCase().includes("spotify.exe")) {
-                    setSpotifyState(true);
-                } else {
-                    setSpotifyState(false);
-                }
-            }
-        );
-    };
-
     // run getPlaybackState on page load to update the current song & check if spotify desktop app is running
     useEffect(() => {
-        check_spotify();
         getPlaybackState();
 
         const interval = setInterval(() => {
@@ -147,7 +126,7 @@ function Music() {
 
     return (
         <>
-            <div className="flex flex-col justify-center items-center gap-5">
+            <div className="flex flex-col justify-center items-center gap-3">
                 <div className="">
                     {backgroundUrl && (
                         <img
