@@ -131,22 +131,22 @@ function Music() {
     return (
         <>
             {isSpotifyRunning ? (
-                <div className="flex flex-col justify-center items-center gap-3">
-                    <div className="">
+                <div className="flex flex-col justify-center items-center gap-1 text-neutral-800 p-5 rounded-4xl border-(--color-blue) border-3">
+                    <div>
                         {backgroundUrl && (
                             <img
                                 src={backgroundUrl}
                                 alt="background image"
-                                className="h-auto w-xs bg-cover"
+                                className="h-auto w-60 bg-cover rounded-2xl"
                             />
                         )}
                     </div>
-                    <div className="text-xl font-medium">
-                        <span>
-                            {currentSong.title} - {currentSong.artist}
-                        </span>
+                    <div className="flex flex-col justify-center items-center text-xl font-medium">
+                        <span>{currentSong.title}</span>
+                        <span>by {currentSong.artist}</span>
                     </div>
-                    <div className="w-3xs flex flex-row justify-evenly items-center border-solid border-4 rounded-4xl border-(--color-blue)">
+
+                    <div className="w-3xs flex flex-row justify-evenly items-center rounded-4xl border-(--color-blue) border-3">
                         <IconButton
                             size="large"
                             color="primary"
@@ -182,7 +182,7 @@ function Music() {
                         </IconButton>
                     </div>
 
-                    <div className="flex flex-row items-center gap-2 w-3xs h-20">
+                    <div className="flex flex-row items-center gap-1 w-3xs h-20">
                         <VolumeDown />
                         <Slider
                             aria-label="Volume"
