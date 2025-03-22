@@ -18,7 +18,7 @@ Control your spotify playback through a simple website. Uses OAuth 2.0 authoriza
    ```bash
    npm install
    ```
-4. Copy ``.env.example`` and name it ``.env``:
+4. Copy ``.env.example`` inside ``server`` folder and name it ``.env``:
    ```bash
    copy .env.example .env
    ```
