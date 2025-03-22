@@ -18,13 +18,17 @@ Control your spotify playback through a simple website. Uses OAuth 2.0 authoriza
    ```bash
    npm install
    ```
-3. Start the Vite server from the ``spotify-web-controller`` folder:
+4. Create ``.env`` file based on ``.env.example``:
+   ```bash
+   copy .env.example .env
+   ```
+6. Start the Vite server from the ``spotify-web-controller`` folder:
    ```bash
    npm run dev
    ```
-4. Start the express.js server from the ``server`` folder:
+7. Start the express.js server from the ``server`` folder:
    ```bash
    npx ts-node src/server.ts
    ```
-5. Navigate to ``http://localhost:5173``
-6. Start Spotify Desktop Application
+8. Navigate to ``http://localhost:5173``
+9. Start Spotify Desktop Application
