@@ -10,7 +10,11 @@ Control your spotify playback through a simple website. Uses OAuth 2.0 authoriza
 
 ### How to run
 1. Clone the project to your local machine
-2. Install dependencies for both frontend & backend  in ``spotify-web-controller`` & ``server`` folders:
+2. Install dependencies for frontend in ``spotify-web-controller`` folder:
+   ```bash
+   npm install
+   ```
+3. Install dependencies for backend in ``server`` folder:
    ```bash
    npm install
    ```
@@ -23,3 +27,4 @@ Control your spotify playback through a simple website. Uses OAuth 2.0 authoriza
    npx ts-node src/server.ts
    ```
 5. Navigate to ``http://localhost:5173``
+6. Start Spotify Desktop Application
