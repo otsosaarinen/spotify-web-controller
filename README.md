@@ -18,10 +18,11 @@ Control your spotify playback through a simple website. Uses OAuth 2.0 authoriza
    ```bash
    npm install
    ```
-4. Create ``.env`` file based on ``.env.example``:
+4. Copy ``.env.example`` and name it ``.env``:
    ```bash
    copy .env.example .env
    ```
+5. Fill ``.env`` with ``CLIENT_ID``, ``CLIENT_SECRET`` & ``REDIRECT_URI`` values you got from Spotify Developer portal.
 6. Start the Vite server from the ``spotify-web-controller`` folder:
    ```bash
    npm run dev
