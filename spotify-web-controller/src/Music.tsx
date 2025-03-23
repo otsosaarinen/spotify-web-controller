@@ -117,6 +117,11 @@ function Music() {
         window.open(SpotifySongUrl, "_blank");
     };
 
+    const reAuthorize = () => {
+        localStorage.clear();
+        window.location.reload();
+    };
+
     // run getPlaybackState on page load to update the current song & check if spotify desktop app is running
     useEffect(() => {
         getPlaybackState();
@@ -131,80 +136,93 @@ function Music() {
     return (
         <>
             {isSpotifyRunning ? (
-                <div className="flex flex-col justify-center items-center gap-1 text-neutral-800 p-5 rounded-4xl border-(--color-blue) border-3">
-                    <div>
-                        {backgroundUrl && (
-                            <img
-                                src={backgroundUrl}
-                                alt="background image"
-                                className="h-auto w-60 bg-cover rounded-2xl"
+                <div className="flex flex-col justify-center items-center gap-3 text-neutral-800">
+                    <div className="flex flex-col justify-center items-center p-5 rounded-4xl border-(--color-blue) border-3">
+                        <div>
+                            {backgroundUrl && (
+                                <img
+                                    src={backgroundUrl}
+                                    alt="background image"
+                                    className="h-auto w-60 bg-cover rounded-2xl"
+                                />
+                            )}
+                        </div>
+                        <div className="flex flex-col justify-center items-center text-xl font-medium">
+                            <span>{currentSong.title}</span>
+                            <span>by {currentSong.artist}</span>
+                        </div>
+
+                        <div className="w-3xs flex flex-row justify-evenly items-center rounded-4xl border-(--color-blue) border-3">
+                            <IconButton
+                                size="large"
+                                color="primary"
+                                onClick={skipToPrevious}
+                            >
+                                <SkipPrevious fontSize="inherit" />
+                            </IconButton>
+
+                            {isPlaying ? (
+                                <IconButton
+                                    size="large"
+                                    color="primary"
+                                    onClick={pauseMusic}
+                                >
+                                    <PauseCircleFilled fontSize="inherit" />
+                                </IconButton>
+                            ) : (
+                                <IconButton
+                                    size="large"
+                                    color="primary"
+                                    onClick={playMusic}
+                                >
+                                    <PlayCircleFilled fontSize="inherit" />
+                                </IconButton>
+                            )}
+
+                            <IconButton
+                                size="large"
+                                color="primary"
+                                onClick={skipToNext}
+                            >
+                                <SkipNext fontSize="inherit" />
+                            </IconButton>
+                        </div>
+
+                        <div className="flex flex-row items-center gap-1 w-3xs h-20">
+                            <VolumeDown />
+                            <Slider
+                                aria-label="Volume"
+                                color="primary"
+                                valueLabelDisplay="auto"
+                                min={0}
+                                max={100}
+                                value={volume}
+                                onChange={handleChange}
+                                onChangeCommitted={changeVolume}
                             />
-                        )}
-                    </div>
-                    <div className="flex flex-col justify-center items-center text-xl font-medium">
-                        <span>{currentSong.title}</span>
-                        <span>by {currentSong.artist}</span>
-                    </div>
+                            <VolumeUp />
+                        </div>
 
-                    <div className="w-3xs flex flex-row justify-evenly items-center rounded-4xl border-(--color-blue) border-3">
-                        <IconButton
-                            size="large"
-                            color="primary"
-                            onClick={skipToPrevious}
-                        >
-                            <SkipPrevious fontSize="inherit" />
-                        </IconButton>
-
-                        {isPlaying ? (
-                            <IconButton
-                                size="large"
-                                color="primary"
-                                onClick={pauseMusic}
+                        <div className="">
+                            <Button
+                                variant="contained"
+                                size="medium"
+                                onClick={openSongUrl}
+                                endIcon={<OpenInNewIcon />}
                             >
-                                <PauseCircleFilled fontSize="inherit" />
-                            </IconButton>
-                        ) : (
-                            <IconButton
-                                size="large"
-                                color="primary"
-                                onClick={playMusic}
-                            >
-                                <PlayCircleFilled fontSize="inherit" />
-                            </IconButton>
-                        )}
-
-                        <IconButton
-                            size="large"
-                            color="primary"
-                            onClick={skipToNext}
-                        >
-                            <SkipNext fontSize="inherit" />
-                        </IconButton>
+                                Open in Spotify
+                            </Button>
+                        </div>
                     </div>
 
-                    <div className="flex flex-row items-center gap-1 w-3xs h-20">
-                        <VolumeDown />
-                        <Slider
-                            aria-label="Volume"
-                            color="primary"
-                            valueLabelDisplay="auto"
-                            min={0}
-                            max={100}
-                            value={volume}
-                            onChange={handleChange}
-                            onChangeCommitted={changeVolume}
-                        />
-                        <VolumeUp />
-                    </div>
-
-                    <div className="">
+                    <div className="flex justify-center items-center">
                         <Button
                             variant="contained"
-                            size="medium"
-                            onClick={openSongUrl}
-                            endIcon={<OpenInNewIcon />}
+                            size="small"
+                            color="error"
+                            onClick={reAuthorize}
                         >
-                            Open in Spotify
+                            Reauthorize
                         </Button>
                     </div>
                 </div>
