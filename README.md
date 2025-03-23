@@ -35,4 +35,4 @@ Control your spotify playback through a simple website. Uses OAuth 2.0 authoriza
 9. Start Spotify Desktop Application
 
 ### Website
-![Spotify Web Controller Image](https://i.gyazo.com/b238abe5cadf06c58066dd89451b0676.png)
+![Spotify Web Controller Image](https://i.gyazo.com/9a5968fb83dbe7ac51d3a5b5dda08184.png)
