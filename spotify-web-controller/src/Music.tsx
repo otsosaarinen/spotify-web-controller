@@ -212,7 +212,7 @@ function Music() {
                 <div className="flex flex-row gap-1 justify-center items-center italic text-(--color-blue)">
                     <img
                         className="h-auto w-8 bg-cover"
-                        src="../public/spotify_logo.png"
+                        src="spotify_logo.png"
                         alt="spotify_logo"
                     />
                     <p>Not playing</p>
