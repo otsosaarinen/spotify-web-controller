@@ -117,11 +117,6 @@ function Music() {
         window.open(SpotifySongUrl, "_blank");
     };
 
-    const reAuthorize = () => {
-        localStorage.clear();
-        window.location.reload();
-    };
-
     // run getPlaybackState on page load to update the current song & check if spotify desktop app is running
     useEffect(() => {
         getPlaybackState();
@@ -213,17 +208,6 @@ function Music() {
                                 Open in Spotify
                             </Button>
                         </div>
-                    </div>
-
-                    <div className="flex justify-center items-center">
-                        <Button
-                            variant="contained"
-                            size="small"
-                            color="error"
-                            onClick={reAuthorize}
-                        >
-                            Reauthorize
-                        </Button>
                     </div>
                 </div>
             ) : (
