@@ -40,7 +40,6 @@ function Auth() {
                         }
                     );
                     const data = await response.json();
-                    console.log(data);
 
                     if (data.access_token) {
                         localStorage.setItem("access_token", data.access_token);
